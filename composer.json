@@ -89,10 +89,11 @@
         },
         "post-install-cmd": [
             "@auto-scripts",
-            "php bin/console doctrine:schema:update --force"
+            "php bin/console doctrine:schema:update --force",
+            "yarn install --force",
+            "yarn encore dev"
         ],
         "post-update-cmd": [
-            "php bin/console doctrine:schema:update --force"
         ]
     },
     "conflict": {
