@@ -90,8 +90,8 @@
         "post-install-cmd": [
             "@auto-scripts",
             "php bin/console doctrine:schema:update --force",
-            "yarn install --force",
-            "yarn encore dev"
+            "npm install",
+            "npm run build"
         ],
         "post-update-cmd": [
         ]
