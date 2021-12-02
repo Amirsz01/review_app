@@ -89,9 +89,7 @@
         },
         "post-install-cmd": [
             "@auto-scripts",
-            "php bin/console doctrine:schema:update --force",
-            "npm install",
-            "npm run build"
+            "php bin/console doctrine:schema:update --force"
         ],
         "post-update-cmd": [
         ]

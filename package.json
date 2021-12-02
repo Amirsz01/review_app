@@ -12,10 +12,11 @@
     "private": true,
     "scripts": {
         "dev-server": "encore dev-server",
-        "dev": "encore dev",
+        "dev": "npm install\n encore dev\n",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
     },
+    "postinstall": "npm run dev",
     "version": "0.0.0",
     "dependencies": {}
 }
