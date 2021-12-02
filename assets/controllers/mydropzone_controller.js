@@ -1,4 +1,4 @@
-'use strict';
+// mydropzone_controller.js
 
 import { Controller } from 'stimulus';
 
@@ -21,7 +21,7 @@ export default class extends Controller {
     }
 
     _onChange(event) {
-        console.log(event)
+        // The dropzone just changed
     }
 
     _onClear(event) {
