@@ -13,7 +13,7 @@ class FacebookController extends AbstractController
     /**
      * Link to this controller to start the "connect" process
      *
-     * @Route("/connect/facebook", name="connect_facebook_start")
+     * @Route("/connect/facebook", name="connect_facebook_start", schemes={"https"})
      */
     public function connectAction(ClientRegistry $clientRegistry)
     {
@@ -32,7 +32,7 @@ class FacebookController extends AbstractController
      * because this is the "redirect_route" you configured
      * in config/packages/knpu_oauth2_client.yaml
      *
-     * @Route("/connect/facebook/check", name="connect_facebook_check")
+     * @Route("/connect/facebook/check", name="connect_facebook_check", schemes={"https"})
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
     {
