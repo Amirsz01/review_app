@@ -685,8 +685,5 @@
     },
     "webmozart/assert": {
         "version": "1.10.0"
-    },
-    "yassinehamouten/ux-dropzone-multiple": {
-        "version": "v0.0.2"
     }
 }

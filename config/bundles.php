@@ -16,5 +16,4 @@ return [
     Knp\Bundle\MarkdownBundle\KnpMarkdownBundle::class => ['all' => true],
     PUGX\AutocompleterBundle\PUGXAutocompleterBundle::class => ['all' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
-    Symfony\UX\Dropzone\DropzoneBundle::class => ['all' => true],
 ];
