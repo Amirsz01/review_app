@@ -92,7 +92,7 @@
         ],
         "post-update-cmd": [
             "php bin/console doctrine:schema:update --force"
-        ],
+        ]
     },
     "conflict": {
         "symfony/symfony": "*"
