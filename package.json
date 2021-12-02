@@ -1,0 +1,22 @@
+{
+    "devDependencies": {
+        "@symfony/stimulus-bridge": "^2.1.0",
+        "@symfony/ux-dropzone": "file:vendor/symfony/ux-dropzone/Resources/assets",
+        "@symfony/webpack-encore": "^1.6.1",
+        "@yassinehamouten/ux-dropzone-multiple": "file:vendor/yassinehamouten/ux-dropzone-multiple/Resources/assets",
+        "core-js": "^3.0.0",
+        "regenerator-runtime": "^0.13.2",
+        "stimulus": "^2.0.0",
+        "webpack-notifier": "^1.6.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "version": "0.0.0",
+    "dependencies": {}
+}

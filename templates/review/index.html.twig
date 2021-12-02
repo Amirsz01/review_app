@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Review | {{review.title}}!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h2>Название: {{review.title}}!</h2>
+    <h5>Автор: <strong>{{ review.author.getFullName() }}</strong></h5>
+    <h5>Категория: <strong>{{ review.category.name }}</strong></h5>
+    <p>
+        Теги:
+        {% for tag in review.tags %}
+            {{ tag.name }}
+        {% endfor %}
+    </p>
+    <header style="background-color: #ddd">
+        {{review.text|markdown}}
+    </header>
+    {% for image in review.images %}
+        <img alt src="{{ image.sharedUri }}" style="height: 100px;">
+    {% endfor %}
+    <h5>Лайки: {{ review.likes|length }}</h5>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('review_like', {'reviewId': review.id}) }}">Лайк</a>
+    {% endif %}
+    <h5>Комментарии: </h5>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {{ form(comment_form) }}
+        {% for comment in review.comments %}
+            <figure>
+                <blockquote class="blockquote">
+                    <p>{{comment.text}}</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    {{ comment.user.getFullName() }} in <cite title="Source Title">{{comment.dateCreate|date("H:i d.m")}}</cite>
+                </figcaption>
+            </figure>
+        {% endfor %}
+    {% else %}
+        <p>Вам не доступны комментарии. Авторизуйтесь!</p>
+    {% endif %}
+</div>
+{% endblock %}

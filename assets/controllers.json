@@ -1,0 +1,23 @@
+{
+    "controllers": {
+        "@symfony/ux-dropzone": {
+            "dropzone": {
+                "enabled": true,
+                "fetch": "eager",
+                "autoimport": {
+                    "@yassinehamouten/ux-dropzone-multiple/src/style.css": true
+                }
+            }
+        },
+        "@yassinehamouten/ux-dropzone-multiple": {
+            "dropzone": {
+                "enabled": true,
+                "fetch": "eager",
+                "autoimport": {
+                    "@yassinehamouten/ux-dropzone-multiple/src/style.css": true
+                }
+            }
+        }
+    },
+    "entrypoints": []
+}
