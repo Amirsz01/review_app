@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\UX\Dropzone\Form\DropzoneMultipleType;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class ImageType extends AbstractType
 {
@@ -30,6 +31,6 @@ class ImageType extends AbstractType
 
     public function getParent(): string
     {
-        return DropzoneMultipleType::class;
+        return DropzoneType::class;
     }
 }

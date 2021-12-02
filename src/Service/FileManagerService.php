@@ -18,7 +18,7 @@ class FileManagerService
 
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client = new Client( getenv('DROPBOX_ACCESS_TOKET'));
         $this->adapter = new DropboxAdapter($this->client);
         $this->filesystem = new Filesystem($this->adapter, ['case_sensitive' => false]);
     }
