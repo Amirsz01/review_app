@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\ImageRepository;
 use App\Service\FileManagerService;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\String_;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)

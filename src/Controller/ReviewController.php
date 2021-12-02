@@ -7,7 +7,6 @@ use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Like;
 use App\Entity\Review;
-use App\Entity\Tag;
 use App\Entity\User;
 use App\Form\Type\ImageType;
 use App\Form\Type\TagType;
