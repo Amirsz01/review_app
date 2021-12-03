@@ -7,6 +7,7 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class GoogleController extends AbstractController
 {
@@ -20,7 +21,7 @@ class GoogleController extends AbstractController
 
         return $clientRegistry
             ->getClient('google') // key used in config/packages/knpu_oauth2_client.yaml
-            ->redirect(['email']);
+            ->redirect(['email'], ['redirect_uri' => $this->generateUrl('connect_google_check', [], UrlGenerator::ABSOLUTE_URL)]);
     }
 
     /**

@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ReviewRepository::class)
@@ -71,6 +72,16 @@ class Review
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="review", orphanRemoval=true)
      */
     private Collection $images;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 10,
+     *      notInRangeMessage = "You must be between {{ min }} point and {{ max }} point tall to enter",
+     * )
+     */
+    private int $score;
 
     public function __construct()
     {
@@ -245,6 +256,18 @@ class Review
     {
         $image->getFms()->imageRemove($image->getSlug());
         $this->images->removeElement($image);
+
+        return $this;
+    }
+
+    public function getScore(): int
+    {
+        return $this->score;
+    }
+
+    public function setScore(int $score): self
+    {
+        $this->score = $score;
 
         return $this;
     }

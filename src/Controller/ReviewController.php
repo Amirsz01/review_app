@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Comment;
-use App\Entity\Image;
 use App\Entity\Like;
 use App\Entity\Review;
 use App\Entity\User;
@@ -14,6 +13,7 @@ use App\Service\FileManagerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -103,6 +103,13 @@ class ReviewController extends AbstractController
                 'class' => Category::class,
                 'choice_label' => 'name',
             ])
+            ->add('score', RangeType::class, [
+                'required'=> true,
+                'attr' => [
+                    'min' => 1,
+                    'max' => 10
+                ],
+            ])
             ->add('save', SubmitType::class, ['label' => 'Отправить'])
             ->getForm();
     }
@@ -149,15 +156,12 @@ class ReviewController extends AbstractController
             if ($form->isSubmitted() && $form->isValid())
             {
                 $images = $form->get('images')->getData();
-                $oldImages = $review->getImages();
-                /**@var $oldImage Image*/
-//                foreach ($oldImages as $oldImage) {
-//                    $this->fms->imageRemove($oldImage->getSlug());
-//                }
                 foreach ($images as $image) {
                     $review->addImage($image);
                 }
+                /**@var $review Review*/
                 $review = $form->getData();
+                $review->setDateUpdate(new \DateTime());
                 $this->addFlash('success', 'Обзор изменен');
                 $this->em->flush();
 
