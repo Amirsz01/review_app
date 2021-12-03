@@ -22,6 +22,12 @@ class DefaultController extends AbstractController
         $this->em = $em;
     }
 
+    #[Route('/', name: 'root')]
+    public function redirectToHomePage()
+    {
+        return $this->redirectToRoute('home_page');
+    }
+
     #[Route('{_locale}/', name: 'home_page')]
     public function index(): Response
     {

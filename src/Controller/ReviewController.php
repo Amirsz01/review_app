@@ -21,6 +21,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class ReviewController extends AbstractController
 {
@@ -131,6 +132,7 @@ class ReviewController extends AbstractController
     #[Route('{_locale}/review/create', name: 'create_review')]
     public function createReview(Request $request): Response
     {
+        var_dump($this->generateUrl('connect_facebook_check', [], UrlGenerator::ABSOLUTE_URL));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $review = new Review();
