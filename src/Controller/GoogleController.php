@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Provider\GoogleUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +23,7 @@ class GoogleController extends AbstractController
 
         return $clientRegistry
             ->getClient('google') // key used in config/packages/knpu_oauth2_client.yaml
-            ->redirect(['email'], ['redirect_uri' => $this->generateUrl('connect_google_check', [], UrlGenerator::ABSOLUTE_URL)]);
+            ->redirect(['email'], []);
     }
 
     /**
@@ -37,12 +39,12 @@ class GoogleController extends AbstractController
         // leave this method blank and create a Guard authenticator
         // (read below)
 
-        /** @var \KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient $client */
+        /** @var GoogleClient $client */
         $client = $clientRegistry->getClient('google');
 
         try {
             // the exact class depends on which provider you're using
-            /** @var \League\OAuth2\Client\Provider\GoogleUser $user */
+            /** @var GoogleUser $user */
             $user = $client->fetchUser();
 
             // do something with all this new power!

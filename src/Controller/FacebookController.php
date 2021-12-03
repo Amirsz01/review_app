@@ -24,7 +24,7 @@ class FacebookController extends AbstractController
             ->getClient('facebook') // key used in config/packages/knpu_oauth2_client.yaml
             ->redirect([
                 'public_profile', 'email' // the scopes you want to access
-            ], ['redirect_uri' => $this->generateUrl('connect_google_check', [], UrlGenerator::ABSOLUTE_URL)]);
+            ], ['redirect_uri' => $this->generateUrl('connect_facebook_check', [], UrlGenerator::ABSOLUTE_URL)]);
     }
 
     /**
