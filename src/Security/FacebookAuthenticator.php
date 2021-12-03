@@ -5,6 +5,7 @@ namespace App\Security;
 
 use App\Entity\User; // your user entity
 use Doctrine\ORM\EntityManagerInterface;
+use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -19,9 +20,9 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class FacebookAuthenticator extends SocialAuthenticator
 {
-    private $clientRegistry;
-    private $em;
-    private $router;
+    private ClientRegistry $clientRegistry;
+    private EntityManagerInterface $em;
+    private RouterInterface $router;
 
     public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
     {
@@ -32,19 +33,11 @@ class FacebookAuthenticator extends SocialAuthenticator
 
     public function supports(Request $request)
     {
-        // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_facebook_check';
     }
 
     public function getCredentials(Request $request)
     {
-        // this method is only called if supports() returns true
-
-        // For Symfony lower than 3.4 the supports method need to be called manually here:
-        // if (!$this->supports($request)) {
-        //     return null;
-        // }
-
         return $this->fetchAccessToken($this->getFacebookClient());
     }
 
@@ -69,23 +62,18 @@ class FacebookAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @return FacebookClient
+     * @return OAuth2ClientInterface
      */
     private function getFacebookClient()
     {
-        return $this->clientRegistry
-            ->getClient('facebook');
+        return $this->clientRegistry->getClient('facebook');
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        // change "app_homepage" to some route in your app
         $targetUrl = $this->router->generate('home_page');
 
         return new RedirectResponse($targetUrl);
-
-        // or, on success, let the request continue to be handled by the controller
-        //return null;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
@@ -95,10 +83,6 @@ class FacebookAuthenticator extends SocialAuthenticator
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     * Called when authentication is needed, but it's not sent.
-     * This redirects to the 'login'.
-     */
     public function start(Request $request, AuthenticationException $authException = null)
     {
         return new RedirectResponse(

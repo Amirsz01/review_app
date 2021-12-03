@@ -40,17 +40,11 @@ class FacebookController extends AbstractController
         $client = $clientRegistry->getClient('facebook');
 
         try {
-            // the exact class depends on which provider you're using
             /** @var FacebookUser $user */
             $user = $client->fetchUser();
 
-            // do something with all this new power!
-            // e.g. $name = $user->getFirstName();
             var_dump($user); die;
-            // ...
         } catch (IdentityProviderException $e) {
-            // something went wrong!
-            // probably you should return the reason to the user
             var_dump($e->getMessage()); die;
         }
     }

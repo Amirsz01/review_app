@@ -1,0 +1,36 @@
+main:
+  main_page: 'Главная страница'
+  last_reviews: 'Последние обзоры'
+  buttons:
+    create_review: 'Создать обзор'
+    logout: 'Выход'
+    profile: 'Профиль'
+    main: 'Главная'
+
+search:
+  search_placeholder: 'Поиск...'
+  found_reviews: 'Найденные обзоры'
+  reviews_not_found: 'По данному запросу обзоров не найдено'
+
+fields:
+  title: 'Заголовок'
+  text: 'Текст'
+  images: 'Картинки'
+  tags: 'Теги'
+  category: 'Категория'
+  score: 'Оценка'
+  author: 'Автор'
+  likes: 'Лайки'
+  comments: 'Комментарии'
+
+form:
+  buttons:
+    send: 'Отправить'
+
+word:
+  in: 'в'
+  like: 'Лайк'
+
+review:
+  comments:
+    not_available: 'Вам не доступны комментарии. Авторизуйтесь!'

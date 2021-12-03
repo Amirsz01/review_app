@@ -9,11 +9,11 @@
 </style>
 
 <div class="example-wrapper">
-    <h2>Название: {{review.title}}!</h2>
-    <h5>Автор: <strong>{{ review.author.getFullName() }}</strong></h5>
-    <h5>Категория: <strong>{{ review.category.name }}</strong></h5>
+    <h2>{{'fields.title'|trans}}: {{review.title}}!</h2>
+    <h5>{{'fields.author'|trans}}: <strong>{{ review.author.getFullName() }}</strong></h5>
+    <h5>{{'fields.category'|trans}}: <strong>{{ review.category.name }}</strong></h5>
     <p>
-        Теги:
+        {{'fields.tags'|trans}}:
         {% for tag in review.tags %}
             {{ tag.name }}
         {% endfor %}
@@ -24,11 +24,11 @@
     {% for image in review.images %}
         <img alt src="{{ image.sharedUri }}" style="height: 100px;">
     {% endfor %}
-    <h5>Лайки: {{ review.likes|length }}</h5>
+    <h5>{{ 'fields.likes'|trans }}: {{ review.likes|length }}</h5>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <a href="{{ path('review_like', {'reviewId': review.id}) }}">Лайк</a>
+        <a href="{{ path('review_like', {'reviewId': review.id}) }}">{{'word.like'|trans }}</a>
     {% endif %}
-    <h5>Комментарии: </h5>
+    <h5>{{ 'fields.comments'|trans }}: </h5>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         {{ form(comment_form) }}
         {% for comment in review.comments %}
@@ -37,12 +37,12 @@
                     <p>{{comment.text}}</p>
                 </blockquote>
                 <figcaption class="blockquote-footer">
-                    {{ comment.user.getFullName() }} in <cite title="Source Title">{{comment.dateCreate|date("H:i d.m")}}</cite>
+                    {{ comment.user.getFullName() }} {{ 'word.in'|trans }} <cite title="Source Title">{{comment.dateCreate|date("H:i d.m")}}</cite>
                 </figcaption>
             </figure>
         {% endfor %}
     {% else %}
-        <p>Вам не доступны комментарии. Авторизуйтесь!</p>
+        <p>{{ 'review.comments.not_available'|trans }}</p>
     {% endif %}
 </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Найденные обзоры{% endblock %}
+{% block title %}{{'search.found_reviews'|trans}}{% endblock %}
 
 {% block body %}
     <style>
@@ -9,13 +9,13 @@
     </style>
 
     <div class="example-wrapper">
-        Найденные обзоры:
+        {{'search.found_reviews'|trans}}:
         {% if reviews|length %}
             {% for review in reviews %}
                 <br><a href="{{ path('review', {'reviewId': review.id}) }}">{{ review.getTitle() }}</a>
             {% endfor %}
         {% else %}
-            <p>По данному запросу обзоров не найдено.</p>
+            <p>{{'search.reviews_not_found'|trans}}</p>
         {% endif %}
     </div>
 {% endblock %}

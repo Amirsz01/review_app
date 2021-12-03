@@ -1,0 +1,36 @@
+main:
+  main_page: 'Main page'
+  last_reviews: 'Last reviews'
+  buttons:
+    create_review: 'Create review'
+    logout: 'Logout'
+    profile: 'Profile'
+    main: 'Main'
+
+search:
+  search_placeholder: 'Search...'
+  found_reviews: 'Found reviews'
+  reviews_not_found: 'No reviews were found for this request.'
+
+fields:
+  title: 'Title'
+  text: 'Text'
+  images: 'Images'
+  tags: 'Tags'
+  category: 'Category'
+  score: 'Score'
+  author: 'Author'
+  likes: 'Likes'
+  comments: 'Comments'
+
+form:
+  buttons:
+    send: 'Send'
+
+word:
+  in: 'in'
+  like: 'Like'
+
+review:
+  comments:
+    not_available: 'Comments are not available to you. Log in!'

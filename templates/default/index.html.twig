@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Main page!{% endblock %}
+{% block title %}{{ 'main.main_page'|trans }}{% endblock %}
 
 {% block body %}
 <style>
@@ -9,7 +9,7 @@
 </style>
 
 <div class="example-wrapper">
-    <h2>Самые последние обзоры</h2>
+    <h2>{{ 'main.last_reviews'|trans }}</h2>
 
     {% for review in reviews %}
         <a href="{{path('review', {'reviewId': review.id})}}">{{ review.title }}</a><br>

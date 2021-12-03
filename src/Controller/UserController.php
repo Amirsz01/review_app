@@ -20,7 +20,7 @@ class UserController extends AbstractController
         $this->clientRegistry = $clientRegistry;
     }
 
-    #[Route('/user/{id}', name: 'user_page')]
+    #[Route('{_locale}/user/{id}', name: 'user_page')]
     public function index($id): Response
     {
         $user = $existingUser = $this->em->getRepository(User::class)
@@ -31,7 +31,7 @@ class UserController extends AbstractController
             'reviews' => $reviews,
         ]);
     }
-    #[Route('/logout', name: 'logout')]
+    #[Route('{_locale}/logout', name: 'logout')]
     public function logout()
     {
 

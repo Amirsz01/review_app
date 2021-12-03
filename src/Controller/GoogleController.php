@@ -23,7 +23,7 @@ class GoogleController extends AbstractController
 
         return $clientRegistry
             ->getClient('google') // key used in config/packages/knpu_oauth2_client.yaml
-            ->redirect(['email'], []);
+            ->redirect(['email'], ['redirect_uri' => $this->generateUrl('connect_google_check', [], UrlGenerator::ABSOLUTE_URL)]);
     }
 
     /**

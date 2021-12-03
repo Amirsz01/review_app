@@ -33,7 +33,7 @@ class ReviewController extends AbstractController
         $this->fms = $fms;
     }
 
-    #[Route('/review/id{reviewId}', name: 'review')]
+    #[Route('{_locale}/review/id{reviewId}', name: 'review')]
     public function index($reviewId, Request $request): Response
     {
         $review = $this->em->getRepository(Review::class)->find($reviewId);
@@ -43,7 +43,7 @@ class ReviewController extends AbstractController
             $comment = new Comment($review, $this->getUser());
             $comment_form = $this->createFormBuilder($comment)
                 ->add('text', TextType::class, ['required' => true, 'label'=> false])
-                ->add('save', SubmitType::class, ['label' => 'Отправить'])
+                ->add('save', SubmitType::class, ['label' => 'form.buttons.send'])
                 ->getForm();
 
             $comment_form->handleRequest($request);
@@ -66,7 +66,7 @@ class ReviewController extends AbstractController
         ]);
     }
 
-    #[Route('/review/id{reviewId}/like', name: 'review_like')]
+    #[Route('{_locale}/review/id{reviewId}/like', name: 'review_like')]
     public function likeAction($reviewId, Request $request): Response
     {
         $review = $this->em->getRepository(Review::class)->find($reviewId);
@@ -91,17 +91,31 @@ class ReviewController extends AbstractController
     public function createFormReview(Review $review) : FormInterface
     {
         return $this->createFormBuilder($review)
-            ->add('title', TextType::class, ['required' => true])
-            ->add('text', TextareaType::class, ['required' => true])
-            ->add('tags', TagType::class, ['required'=> true])
+            ->add('title', TextType::class, [
+                'required' => true,
+                'label' => 'fields.title',
+            ])
+            ->add('text', TextareaType::class, [
+                'required' => true,
+                'label' => 'fields.text',
+            ])
+            ->add('tags', TagType::class, [
+                'required'=> true,
+                'label' => 'fields.tags',
+            ])
             ->add('images', ImageType::class, [
                 'multiple' => true,
                 'required' => false,
-                'attr' => ['data-controller' => 'mydropzone', 'multiple' => 'multiple'],
+                'attr' => [
+                    'data-controller' => 'mydropzone',
+                    'multiple' => 'multiple'
+                ],
+                'label' => 'fields.images',
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
+                'label' => 'fields.category',
             ])
             ->add('score', RangeType::class, [
                 'required'=> true,
@@ -109,11 +123,12 @@ class ReviewController extends AbstractController
                     'min' => 1,
                     'max' => 10
                 ],
+                'label' => 'fields.score',
             ])
-            ->add('save', SubmitType::class, ['label' => 'Отправить'])
+            ->add('save', SubmitType::class, ['label' => 'form.buttons.send'])
             ->getForm();
     }
-    #[Route('/review/create', name: 'create_review')]
+    #[Route('{_locale}/review/create', name: 'create_review')]
     public function createReview(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -136,7 +151,7 @@ class ReviewController extends AbstractController
         ]);
     }
 
-    #[Route('/review/id{reviewId}/edit', name: 'edit_review')]
+    #[Route('{_locale}/review/id{reviewId}/edit', name: 'edit_review')]
     public function editReview($reviewId, Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

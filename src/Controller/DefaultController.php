@@ -22,7 +22,7 @@ class DefaultController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/', name: 'home_page')]
+    #[Route('{_locale}/', name: 'home_page')]
     public function index(): Response
     {
         $reviews = $this->em->getRepository(Review::class)->findAll();
@@ -37,8 +37,8 @@ class DefaultController extends AbstractController
         $form = $this->createFormBuilder(null)
             ->add('search', SearchType::class, [
                 'attr' => [
-                    'class' => 'form-control search-query',
-                    'placeholder' => 'Search...',
+                    'class' => 'form-control search-query m-1',
+                    'placeholder' => 'search.search_placeholder',
                 ],
                 'label' => false,
             ])
@@ -52,7 +52,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/search', name: 'handleSearch')]
+    #[Route('{_locale}/search', name: 'handleSearch')]
     public function handleSearch(Request $request): Response
     {
         $data = $request->request->get('form')['search'];

@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\User; // your user entity
 use Doctrine\ORM\EntityManagerInterface;
+use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -18,9 +19,9 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class GoogleAuthenticator extends SocialAuthenticator
 {
-    private $clientRegistry;
-    private $em;
-    private $router;
+    private ClientRegistry $clientRegistry;
+    private EntityManagerInterface $em;
+    private RouterInterface $router;
 
     public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
     {
@@ -36,12 +37,6 @@ class GoogleAuthenticator extends SocialAuthenticator
 
     public function getCredentials(Request $request)
     {
-        // this method is only called if supports() returns true
-
-        // For Symfony lower than 3.4 the supports method need to be called manually here:
-        // if (!$this->supports($request)) {
-        //     return null;
-        // }
 
         return $this->fetchAccessToken($this->getGoogleClient());
     }
@@ -52,7 +47,6 @@ class GoogleAuthenticator extends SocialAuthenticator
         $googleUser = $this->getGoogleClient()
             ->fetchUserFromToken($credentials);
 
-        // 1) have they logged in with Facebook before? Easy!
         $existingUser = $this->em->getRepository(User::class)
             ->findOneBy(['uuid' => $googleUser->getId()]);
         if ($existingUser) {
@@ -69,7 +63,7 @@ class GoogleAuthenticator extends SocialAuthenticator
     }
 
     /**
-    * @return GoogleClient
+    * @return OAuth2ClientInterface
     */
     private function getGoogleClient()
     {
@@ -94,10 +88,6 @@ class GoogleAuthenticator extends SocialAuthenticator
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
 
-    /**
-    * Called when authentication is needed, but it's not sent.
-    * This redirects to the 'login'.
-    */
     public function start(Request $request, AuthenticationException $authException = null)
     {
         return new RedirectResponse(
