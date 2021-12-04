@@ -25,3 +25,4 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+Nginx_1.21_vhost.conf
