@@ -16,4 +16,5 @@ return [
     Knp\Bundle\MarkdownBundle\KnpMarkdownBundle::class => ['all' => true],
     PUGX\AutocompleterBundle\PUGXAutocompleterBundle::class => ['all' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
+    Omines\DataTablesBundle\DataTablesBundle::class => ['all' => true],
 ];

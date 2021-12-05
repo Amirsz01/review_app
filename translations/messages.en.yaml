@@ -22,10 +22,13 @@ fields:
   author: 'Author'
   likes: 'Likes'
   comments: 'Comments'
+  buttons: 'Actions'
 
 form:
   buttons:
     send: 'Send'
+    edit: 'Edit'
+    delete: 'Delete'
 
 word:
   in: 'in'

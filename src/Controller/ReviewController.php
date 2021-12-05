@@ -182,11 +182,33 @@ class ReviewController extends AbstractController
                 $this->addFlash('success', 'Обзор изменен');
                 $this->em->flush();
 
-                return $this->redirectToRoute('home_page'); //success add
+                return $this->redirectToRoute('user_page', ['id' => $author->getId()]); //success add
             }
             return $this->renderForm('review/editReview.html.twig', [
                 'form' => $form,
             ]);
+        }
+    }
+    #[Route('{_locale}/review/id{reviewId}/delete', name: 'delete_review')]
+    public function deleteReview($reviewId, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $review = $this->em->getRepository(Review::class)->find($reviewId);
+        /**
+         * @var User $author
+         */
+        $author = $review->getAuthor();
+        if($author->getId() != $this->getUser()->getId())
+        {
+            return $this->redirectToRoute('home_page');
+        }
+        else
+        {
+            $this->em->remove($review);
+            $this->addFlash('success', 'Обзор успешно удален');
+            $this->em->flush();
+
+            return $this->redirectToRoute('user_page', ['id' => $author->getId()]); //success add
         }
     }
 }

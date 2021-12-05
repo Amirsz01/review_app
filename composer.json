@@ -16,6 +16,7 @@
         "knpuniversity/oauth2-client-bundle": "*",
         "league/oauth2-facebook": "^2.0",
         "league/oauth2-google": "^4.0",
+        "omines/datatables-bundle": "^0.5.5",
         "phpdocumentor/reflection-docblock": "^5.3",
         "pugx/autocompleter-bundle": "^1.7",
         "sensio/framework-extra-bundle": "^6.1",

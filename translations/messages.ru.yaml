@@ -22,10 +22,13 @@ fields:
   author: 'Автор'
   likes: 'Лайки'
   comments: 'Комментарии'
+  buttons: 'Действия'
 
 form:
   buttons:
     send: 'Отправить'
+    edit: 'Изменить'
+    delete: 'Удалить'
 
 word:
   in: 'в'
