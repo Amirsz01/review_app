@@ -21,6 +21,7 @@
         "pugx/autocompleter-bundle": "^1.7",
         "sensio/framework-extra-bundle": "^6.1",
         "spatie/flysystem-dropbox": "^2.0",
+        "stevenmaguire/oauth2-dropbox": "^3.1",
         "symfony/asset": "5.3.*",
         "symfony/console": "5.3.*",
         "symfony/dotenv": "5.3.*",

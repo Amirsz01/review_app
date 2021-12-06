@@ -28,6 +28,7 @@ fields:
   likes: 'Likes'
   comments: 'Comments'
   buttons: 'Actions'
+  rating: 'Rating'
 
 form:
   buttons:

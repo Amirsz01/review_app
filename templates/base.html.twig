@@ -30,7 +30,7 @@
                         <li class="nav-item"><a href="{{ path('logout') }}" class="nav-link active m-1" aria-current="page">{{ 'main.buttons.logout'|trans }}</a></li>
                     {% else %}
                         <li class="nav-item"><a href="{{ path('connect_google_start') }}" class="nav-link active m-1" aria-current="page">Google</a></li>
-                        <li class="nav-item"><a href="{{ path('connect_facebook_start') }}" class="nav-link active m-1" aria-current="page">Facebook</a></li>
+                        <li class="nav-item"><a href="{{ path('connect_dropbox_start') }}" class="nav-link active m-1" aria-current="page">Dropbox</a></li>
                     {% endif %}
                     {{ render(controller('App\\Controller\\DefaultController::searchBar')) }}
                     <li class="nav-item"><a href="{{path('create_review')}}" class="nav-link active m-1" aria-current="page">{{ 'main.buttons.create_review'|trans }}</a></li>

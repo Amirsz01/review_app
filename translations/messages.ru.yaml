@@ -28,6 +28,7 @@ fields:
   likes: 'Лайки'
   comments: 'Комментарии'
   buttons: 'Действия'
+  rating: 'Рейтинг'
 
 form:
   buttons:

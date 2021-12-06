@@ -10,6 +10,7 @@ use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use League\OAuth2\Client\Provider\FacebookUser;
+use Stevenmaguire\OAuth2\Client\Provider\Dropbox;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class FacebookAuthenticator extends SocialAuthenticator
+class DropboxAuthenticator extends SocialAuthenticator
 {
     private ClientRegistry $clientRegistry;
     private EntityManagerInterface $em;
@@ -33,28 +34,28 @@ class FacebookAuthenticator extends SocialAuthenticator
 
     public function supports(Request $request)
     {
-        return $request->attributes->get('_route') === 'connect_facebook_check';
+        return $request->attributes->get('_route') === 'connect_dropbox_check';
     }
 
     public function getCredentials(Request $request)
     {
-        return $this->fetchAccessToken($this->getFacebookClient());
+        return $this->fetchAccessToken($this->getDropboxClient());
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        /** @var FacebookUser $facebookUser */
-        $facebookUser = $this->getFacebookClient()
+        /** @var Dropbox $dropboxUser */
+        $dropboxUser = $this->getDropboxClient()
             ->fetchUserFromToken($credentials);
 
         $existingUser = $this->em->getRepository(User::class)
-            ->findOneBy(['uuid' => $facebookUser->getId()]);
+            ->findOneBy(['uuid' => $dropboxUser->getId()]);
         if ($existingUser) {
             return $existingUser;
         }
 
         $user = new User();
-        $user->setDataFromFacebook($facebookUser);
+        $user->setDataFromDropbox($dropboxUser);
         $this->em->persist($user);
         $this->em->flush();
 
@@ -64,9 +65,9 @@ class FacebookAuthenticator extends SocialAuthenticator
     /**
      * @return OAuth2ClientInterface
      */
-    private function getFacebookClient()
+    private function getDropboxClient()
     {
-        return $this->clientRegistry->getClient('facebook');
+        return $this->clientRegistry->getClient('dropbox');
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
@@ -86,7 +87,7 @@ class FacebookAuthenticator extends SocialAuthenticator
     public function start(Request $request, AuthenticationException $authException = null)
     {
         return new RedirectResponse(
-            '/connect/facebook', // might be the site, where users choose their oauth provider
+            '/connect/dropbox',
             Response::HTTP_TEMPORARY_REDIRECT
         );
     }

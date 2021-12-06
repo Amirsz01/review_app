@@ -24,7 +24,7 @@
     {% for image in review.images %}
         <img alt src="{{ image.sharedUri }}" style="height: 100px;">
     {% endfor %}
-    <h5>{{ 'fields.score'|trans }}: {{ review.score }}</h5>
+    <h5>{{ 'fields.rating'|trans }}: {{ review.score }}</h5>
     <h5>{{ 'fields.likes'|trans }}: {{ review.likes|length }}</h5>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <a class="btn btn-outline-primary" href="{{ path('review_like', {'reviewId': review.id}) }}">{{'word.like'|trans }}</a>

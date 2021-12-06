@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8bfa7086af21f9c57e725e15b2255dc3",
+    "content-hash": "0c3c17d07ec847740122e9fcd59e598e",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -3688,6 +3688,65 @@
                 }
             ],
             "time": "2021-04-26T06:22:02+00:00"
+        },
+        {
+            "name": "stevenmaguire/oauth2-dropbox",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stevenmaguire/oauth2-dropbox.git",
+                "reference": "352bb31f3cdca17d2305fcee01ca434b0fce695a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stevenmaguire/oauth2-dropbox/zipball/352bb31f3cdca17d2305fcee01ca434b0fce695a",
+                "reference": "352bb31f3cdca17d2305fcee01ca434b0fce695a",
+                "shasum": ""
+            },
+            "require": {
+                "league/oauth2-client": "^2.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Stevenmaguire\\OAuth2\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Steven Maguire",
+                    "email": "stevenmaguire@gmail.com",
+                    "homepage": "https://github.com/stevenmaguire"
+                },
+                {
+                    "name": "Jason Varga",
+                    "email": "jason@pixelfear.com",
+                    "homepage": "https://github.com/pixelfear"
+                }
+            ],
+            "description": "Dropbox OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
+            "keywords": [
+                "authorisation",
+                "authorization",
+                "client",
+                "dropbox",
+                "oauth",
+                "oauth2"
+            ],
+            "support": {
+                "issues": "https://github.com/stevenmaguire/oauth2-dropbox/issues",
+                "source": "https://github.com/stevenmaguire/oauth2-dropbox/tree/3.1.0"
+            },
+            "time": "2021-09-16T14:05:01+00:00"
         },
         {
             "name": "symfony/asset",
