@@ -27,7 +27,7 @@
             <span class="badge badge-info">{{ tag.name }}</span>
         {% endfor %}
     </p>
-    <div class="rounded p-2 block-text" style="background-color: #ddd; min-height: 300px;">
+    <div class="rounded p-2 block-text text-center" style="background-color: #ddd; min-height: 300px;">
         {{review.text|markdown}}
     </div>
     {% for image in review.images %}

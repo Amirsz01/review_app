@@ -36,9 +36,22 @@
                     <li class="nav-item"><a href="{{path('create_review')}}" class="nav-link active m-1" aria-current="page">{{ 'main.buttons.create_review'|trans }}</a></li>
                 </ul>
 
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-                    <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+                <div class="custom-control custom-switch d-flex flex-row" style="height: 50px;">
+                    <div class="d-flex m-1 justify-content-center align-items-center">
+                        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+                        <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+                    </div>
+                    {% set route = app.request.attributes.get('_route') %}
+                    {% set route_params = app.request.attributes.get('_route_params') %}
+                    {% for locale in locales|split('|') %}
+                        {% if locale != app.request.locale %}
+                            <div class="m-1 nav-item">
+                                <a class="btn btn-outline-primary" href="{{ path(route, route_params|merge({ _locale: locale })) }}">
+                                    {{ locale }}
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </header>
             {% for message in app.flashes('success') %}
