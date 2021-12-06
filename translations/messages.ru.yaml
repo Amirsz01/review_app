@@ -11,6 +11,7 @@ main:
     profile: 'Профиль'
     main: 'Главная'
     admin: 'Админка'
+  create_review: 'Создать обзор'
 
 search:
   search_placeholder: 'Поиск...'

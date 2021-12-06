@@ -64,6 +64,10 @@ class DefaultController extends AbstractController
     #[Route('{_locale<%app.locales%>}/search', name: 'handleSearch')]
     public function handleSearch(Request $request): Response
     {
+        if($request->request->get('form') == null)
+        {
+            return $this->redirectToRoute('home_page');
+        }
         $data = $request->request->get('form')['search'];
         $reviews = $this->em->getRepository(Review::class)->findByText($data);
         return $this->render('default/handleSearch.html.twig', [

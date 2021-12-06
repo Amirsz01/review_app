@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Review | {{review.title}}!{% endblock %}
+{% block title %}Review | {{review.getTitle(true)}}!{% endblock %}
 
 {% block body %}
 <style>

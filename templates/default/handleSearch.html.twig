@@ -3,14 +3,16 @@
 {% block title %}{{'search.found_reviews'|trans}}{% endblock %}
 
 {% block body %}
-    <p class="h4">{{'search.found_reviews'|trans}}:</p>
-    <ul class="list-group list-group-flush">
-    {% if reviews|length %}
-        {% for review in reviews %}
-        <li class="list-group-item"><a href="{{ path('review', {'reviewId': review.id}) }}">{{ review.title|raw }}</a></li>
-        {% endfor %}
-    {% else %}
-        <li class="list-group-item">{{'search.reviews_not_found'|trans}}</li>
-    {% endif %}
-    </ul>
+    <div class="d-flex flex-column">
+        <p class="h4">{{'search.found_reviews'|trans}}:</p>
+        <ul class="list-group list-group-flush">
+            {% if reviews|length %}
+                {% for review in reviews %}
+                    <li class="list-group-item"><a href="{{ path('review', {'reviewId': review.id}) }}">{{ review.title|raw }}</a></li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item">{{'search.reviews_not_found'|trans}}</li>
+            {% endif %}
+        </ul>
+    </div>
 {% endblock %}
