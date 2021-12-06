@@ -34,12 +34,11 @@ class Image
      */
     private string $sharedUri;
 
-    private FileManagerService $fms;
+    private static FileManagerService $fms;
 
     public function __construct($slug)
     {
         $this->slug = $slug;
-        $this->fms = new FileManagerService();
     }
 
     public function getId(): ?int
