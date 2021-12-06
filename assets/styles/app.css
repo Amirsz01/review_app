@@ -96,3 +96,7 @@ a .nav-link {
 table {
     border-radius: .25rem!important;
 }
+
+#form_search {
+    height: 40px;
+}

@@ -3,22 +3,30 @@
 {% block title %}{{ 'main.main_page'|trans }}{% endblock %}
 
 {% block body %}
-    <div class="d-flex w-100">
-        <div class="w-100 border border-success rounded m-1 p-2">
-            <p class="h4">{{ 'main.last_reviews'|trans }}</p>
-            <ul class="list-group list-group-flush">
-                {% for review in reviewsLast %}
-                    <li class="list-group-item"><a class="" href="{{path('review', {'reviewId': review.id})}}">{{ review.title|raw }}</a></li>
-                {% endfor %}
-            </ul>
+    <div class="d-flex flex-column w-100">
+        <div class="d-flex w-100">
+            <div class="w-100 border border-success rounded m-1 p-2">
+                <p class="h4">{{ 'main.last_reviews'|trans }}</p>
+                <ul class="list-group list-group-flush">
+                    {% for review in reviewsLast %}
+                        <li class="list-group-item"><a class="" href="{{path('review', {'reviewId': review.id})}}">{{ review.title|raw }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="w-100 border border-success rounded m-1 p-2">
+                <p class="h4">{{ 'main.most_rating'|trans }}</p>
+                <ul class="list-group list-group-flush">
+                    {% for review in reviewsRating %}
+                        <li class="list-group-item"><a href="{{path('review', {'reviewId': review[0].id})}}"><span class="badge bg-warning align-middle">{{ review["avg"] ? review["avg"]|round(2) : 0 }}</span> {{ review[0].getTitle(true) }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-        <div class="w-100 border border-success rounded m-1 p-2">
-            <p class="h4">{{ 'main.most_rating'|trans }}</p>
-            <ul class="list-group list-group-flush">
-                {% for review in reviewsRating %}
-                    <li class="list-group-item"><a href="{{path('review', {'reviewId': review[0].id})}}"><span class="badge bg-warning align-middle">{{ review["avg"] ? review["avg"]|round(2) : 0 }}</span> {{ review[0].getTitle(true) }}</a></li>
-                {% endfor %}
-            </ul>
+        <div class="border border-success rounded m-1 p-2">
+            <p class="h4">{{ 'main.cloud_tags'|trans }}</p>
+            {% for tag in tags %}
+                <span class="badge badge-info">{{ tag.name }}</span>
+            {% endfor %}
         </div>
     </div>
 

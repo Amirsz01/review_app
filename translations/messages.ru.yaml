@@ -4,6 +4,7 @@ main:
   profile_page: 'Профиль'
   admin_page: 'Админка'
   most_rating: 'Самые популярные обзоры'
+  cloud_tags: 'Облако тегов'
   buttons:
     create_review: 'Создать обзор'
     logout: 'Выход'

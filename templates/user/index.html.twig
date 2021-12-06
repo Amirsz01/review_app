@@ -11,15 +11,10 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.jqueryui.min.js"></script>
 {% endblock %}
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 1200px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
-
-    <div class="example-wrapper">
+    <div class="d-flex flex-column w-100">
         {% if user %}
-            <h1>{{ 'word.hello'|trans }}, {{ user.getFullName()|raw }}!</h1>
-            <a href="{{ path('create_review_by_admin', {'id':user.id}) }}" class="btn btn-outline-warning">{{ 'user_page.buttons.create_review'|trans }}</a><br>
+            <p class="h1">{{ 'word.hello'|trans }}, {{ user.getFullName()|raw }}!</p>
+            <a href="{{ path('create_review_by_admin', {'id':user.id}) }}" class="btn btn-outline-warning w-25">{{ 'user_page.buttons.create_review'|trans }}</a><br>
             {{'user_page.your_reviews'|trans}}:
             <div id="table-reviews">{{'search.loading'|trans}}</div>
         {% else %}

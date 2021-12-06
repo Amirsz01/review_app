@@ -33,9 +33,11 @@ class DefaultController extends AbstractController
     {
         $reviewsByLast = $this->em->getRepository(Review::class)->findByLastUpdate();
         $reviewsByRating = $this->em->getRepository(Review::class)->findByMostRating();
+        $tags = $this->em->getRepository(Tag::class)->findTen();
         return $this->renderForm('default/index.html.twig', [
             'reviewsLast' => $reviewsByLast,
-            'reviewsRating' => $reviewsByRating
+            'reviewsRating' => $reviewsByRating,
+            'tags' => $tags
         ]);
     }
 

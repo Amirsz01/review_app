@@ -127,9 +127,6 @@
     "league/oauth2-client": {
         "version": "1.4.2"
     },
-    "league/oauth2-facebook": {
-        "version": "2.0.5"
-    },
     "league/oauth2-github": {
         "version": "3.0.0"
     },
@@ -305,9 +302,6 @@
     },
     "spatie/flysystem-dropbox": {
         "version": "2.0.4"
-    },
-    "stevenmaguire/oauth2-dropbox": {
-        "version": "3.1.0"
     },
     "symfony/asset": {
         "version": "v5.3.4"

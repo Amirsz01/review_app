@@ -24,6 +24,14 @@ class TagRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(array('name' => $value));
     }
+
+    public function findTen()
+    {
+        return $this->getEntityManager()
+            ->createQuery("SELECT t FROM App\Entity\Tag t")
+            ->setMaxResults(10)
+            ->getResult();
+    }
     // /**
     //  * @return Tag[] Returns an array of Tag objects
     //  */

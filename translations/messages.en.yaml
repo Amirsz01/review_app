@@ -4,12 +4,14 @@ main:
   most_rating: 'Most rating reviews'
   profile_page: 'Profile'
   admin_page: 'Admin page'
+  cloud_tags: 'Tags cloud'
   buttons:
     create_review: 'Create review'
     logout: 'Logout'
     profile: 'Profile'
     admin: 'AdmPan'
     main: 'Main'
+
 
 search:
   search_placeholder: 'Search...'

@@ -47,6 +47,7 @@
 
 [data-theme="dark"] .fg-button {
   background-color: #444 !important;
+  background-image: none !important;
   color: #FFFFFF !important;
 }
 
@@ -56,4 +57,8 @@
   color: #FFFFFF !important;
 }
 
+[data-theme="dark"] .block-text {
+  color: #fff !important;
+  background-color: #333!important;
+}
 

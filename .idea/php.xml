@@ -145,7 +145,6 @@
       <path value="$PROJECT_DIR$/vendor/psr/http-client" />
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/vendor/league/oauth2-google" />
-      <path value="$PROJECT_DIR$/vendor/league/oauth2-facebook" />
       <path value="$PROJECT_DIR$/vendor/pugx/autocompleter-bundle" />
       <path value="$PROJECT_DIR$/vendor/league/flysystem" />
       <path value="$PROJECT_DIR$/vendor/league/mime-type-detection" />
@@ -156,7 +155,6 @@
       <path value="$PROJECT_DIR$/vendor/yassinehamouten/ux-dropzone-multiple" />
       <path value="$PROJECT_DIR$/vendor/symfony/ux-dropzone" />
       <path value="$PROJECT_DIR$/vendor/omines/datatables-bundle" />
-      <path value="$PROJECT_DIR$/vendor/stevenmaguire/oauth2-dropbox" />
       <path value="$PROJECT_DIR$/vendor/league/oauth2-github" />
     </include_path>
   </component>

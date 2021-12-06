@@ -32,7 +32,7 @@
                         <li class="nav-item"><a href="{{ path('connect_google_start') }}" class="nav-link active m-1" aria-current="page">Google</a></li>
                         <li class="nav-item"><a href="{{ path('connect_github_start') }}" class="nav-link active m-1" aria-current="page">Github</a></li>
                     {% endif %}
-                    {{ render(controller('App\\Controller\\DefaultController::searchBar')) }}
+                    <li class="nav-item mr-1"> {{ render(controller('App\\Controller\\DefaultController::searchBar')) }}</li>
                     <li class="nav-item"><a href="{{path('create_review')}}" class="nav-link active m-1" aria-current="page">{{ 'main.buttons.create_review'|trans }}</a></li>
                 </ul>
 
