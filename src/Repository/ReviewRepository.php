@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Review;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -28,6 +28,37 @@ class ReviewRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findWithRating()
+    {
+        return $this->getEntityManager()
+            ->createQuery("SELECT r,ra FROM App\Entity\Review r LEFT JOIN r.ratings ra")
+            ->getResult();
+    }
+
+    public function findFullData(int $id)
+    {
+        return $this->getEntityManager()
+            ->createQuery("SELECT r,ra,a,c,ct,li,i,t FROM App\Entity\Review r LEFT JOIN r.ratings ra LEFT JOIN r.author a LEFT JOIN r.category c LEFT JOIN r.comments ct LEFT JOIN r.likes li
+LEFT JOIN r.images i LEFT JOIN r.tags t WHERE r.id = :val")
+            ->setParameter('val', $id)
+            ->getOneOrNullResult();
+    }
+
+    public function findByLastUpdate()
+    {
+        return $this->getEntityManager()
+            ->createQuery("SELECT r,ra FROM App\Entity\Review r LEFT JOIN r.ratings ra ORDER BY r.date_update DESC")
+            ->setMaxResults(12)
+            ->getResult();
+    }
+
+    public function findByMostRating()
+    {
+        return $this->getEntityManager()
+            ->createQuery("SELECT r, avg(ra.value) as avg FROM App\Entity\Review r LEFT JOIN App\Entity\Rating ra WITH r.id=ra.review GROUP BY r.id ORDER BY avg DESC")
+            ->setMaxResults(10)
+            ->getResult();
+    }
     /*
     public function findOneBySomeField($value): ?Review
     {

@@ -1,16 +1,21 @@
 main:
   main_page: 'Главная страница'
   last_reviews: 'Последние обзоры'
+  profile_page: 'Профиль'
+  admin_page: 'Админка'
+  most_rating: 'Самые популярные обзоры'
   buttons:
     create_review: 'Создать обзор'
     logout: 'Выход'
     profile: 'Профиль'
     main: 'Главная'
+    admin: 'Админка'
 
 search:
   search_placeholder: 'Поиск...'
   found_reviews: 'Найденные обзоры'
   reviews_not_found: 'По данному запросу обзоров не найдено'
+  loading: 'Загрузка...'
 
 fields:
   title: 'Заголовок'
@@ -33,7 +38,16 @@ form:
 word:
   in: 'в'
   like: 'Лайк'
+  hello: 'Привет'
 
 review:
   comments:
     not_available: 'Вам не доступны комментарии. Авторизуйтесь!'
+
+admin_panel:
+  user_list: 'Список пользователей'
+user_page:
+  user_not_fount: 'Данный пользователь не найден'
+  your_reviews: 'Ваши обзоры'
+  buttons:
+    create_review: 'Создать обзор'

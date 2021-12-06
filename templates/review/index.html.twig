@@ -9,8 +9,8 @@
 </style>
 
 <div class="example-wrapper">
-    <h2>{{'fields.title'|trans}}: {{review.title}}!</h2>
-    <h5>{{'fields.author'|trans}}: <strong>{{ review.author.getFullName() }}</strong></h5>
+    <h2>{{'fields.title'|trans}}: {{review.title|raw}}!</h2>
+    <h5>{{'fields.author'|trans}}: <strong>{{ review.author.getFullName()|raw }}</strong></h5>
     <h5>{{'fields.category'|trans}}: <strong>{{ review.category.name }}</strong></h5>
     <p>
         {{'fields.tags'|trans}}:
@@ -24,9 +24,13 @@
     {% for image in review.images %}
         <img alt src="{{ image.sharedUri }}" style="height: 100px;">
     {% endfor %}
+    <h5>{{ 'fields.score'|trans }}: {{ review.score }}</h5>
     <h5>{{ 'fields.likes'|trans }}: {{ review.likes|length }}</h5>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <a href="{{ path('review_like', {'reviewId': review.id}) }}">{{'word.like'|trans }}</a>
+        <a class="btn btn-outline-primary" href="{{ path('review_like', {'reviewId': review.id}) }}">{{'word.like'|trans }}</a>
+    {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {{ form(rating_form) }}
     {% endif %}
     <h5>{{ 'fields.comments'|trans }}: </h5>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}

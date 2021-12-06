@@ -3,17 +3,23 @@
 {% block title %}{{ 'main.main_page'|trans }}{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="d-flex w-100">
+        <div class="w-100 border border-primary rounded m-1 p-2">
+            <p class="h4">{{ 'main.last_reviews'|trans }}</p>
+            <ul class="list-group list-group-flush">
+                {% for review in reviewsLast %}
+                    <li class="list-group-item"><a class="" href="{{path('review', {'reviewId': review.id})}}">{{ review.title|raw }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="w-100 border border-primary rounded m-1 p-2">
+            <p class="h4">{{ 'main.most_rating'|trans }}</p>
+            <ul class="list-group list-group-flush">
+                {% for review in reviewsRating %}
+                    <li class="list-group-item"><a href="{{path('review', {'reviewId': review[0].id})}}"><span class="badge bg-warning">{{ review["avg"] ? review["avg"]|round(2) : 0 }}</span> {{ review[0].getTitle(true) }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
-<div class="example-wrapper">
-    <h2>{{ 'main.last_reviews'|trans }}</h2>
-
-    {% for review in reviews %}
-        <a href="{{path('review', {'reviewId': review.id})}}">{{ review.title }}</a><br>
-    {% endfor %}
-
-</div>
 {% endblock %}

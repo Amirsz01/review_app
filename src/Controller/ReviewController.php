@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Like;
+use App\Entity\Rating;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Form\Type\ImageType;
@@ -21,7 +22,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGenerator;
+use function Sodium\add;
 
 class ReviewController extends AbstractController
 {
@@ -34,14 +35,14 @@ class ReviewController extends AbstractController
         $this->fms = $fms;
     }
 
-    #[Route('{_locale}/review/id{reviewId}', name: 'review')]
+    #[Route('{_locale<%app.locales%>}/review/id{reviewId}', name: 'review')]
     public function index($reviewId, Request $request): Response
     {
-        $review = $this->em->getRepository(Review::class)->find($reviewId);
-
+        $review = $this->em->getRepository(Review::class)->findFullData($reviewId);
+        $user = $this->getUser();
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))
         {
-            $comment = new Comment($review, $this->getUser());
+            $comment = new Comment($review, $user);
             $comment_form = $this->createFormBuilder($comment)
                 ->add('text', TextType::class, ['required' => true, 'label'=> false])
                 ->add('save', SubmitType::class, ['label' => 'form.buttons.send'])
@@ -49,17 +50,53 @@ class ReviewController extends AbstractController
 
             $comment_form->handleRequest($request);
 
-            if($comment_form->isSubmitted())
+            if($comment_form->isSubmitted() && $comment_form->isValid())
             {
-                $comment = $comment_form->getData();
+                $comment->setText($comment_form->get('text')->getData());
                 $review->addComment($comment);
                 $this->em->persist($comment);
+                $this->em->flush();
+                return $this->redirectToRoute('review', ['reviewId' => $reviewId]);
+            }
+
+            $rating = $this->em->getRepository(Rating::class)->findOneBy([
+                'user' => $this->getUser(),
+                'review' => $review
+            ]);
+            $newObj = false;
+            if($rating == null)
+            {
+                $newObj = true;
+                $rating = new Rating($review, $user);
+            }
+            $rating_form = $this->createFormBuilder($rating)
+                ->add('value', RangeType::class, [
+                    'attr' => [
+                        'min' => 1,
+                        'max' => 5
+                    ],
+                    'label' => 'fields.score',
+                    'data' => $rating->getValue()
+                ])
+                ->add('save', SubmitType::class, ['label' => 'form.buttons.send'])
+                ->getForm();
+
+            $rating_form->handleRequest($request);
+
+            if($rating_form->isSubmitted() && $rating_form->isValid())
+            {
+                $rating->setValue($rating_form->get('value')->getData());
+                if($newObj)
+                {
+                    $this->em->persist($rating);
+                }
                 $this->em->flush();
                 return $this->redirectToRoute('review', ['reviewId' => $reviewId]);
             }
             return $this->renderForm('review/index.html.twig', [
                 'review' => $review,
                 'comment_form' => $comment_form,
+                'rating_form' => $rating_form
             ]);
         }
         return $this->render('review/index.html.twig', [
@@ -67,10 +104,11 @@ class ReviewController extends AbstractController
         ]);
     }
 
-    #[Route('{_locale}/review/id{reviewId}/like', name: 'review_like')]
+    #[Route('{_locale<%app.locales%>}/review/id{reviewId}/like', name: 'review_like')]
     public function likeAction($reviewId, Request $request): Response
     {
         $review = $this->em->getRepository(Review::class)->find($reviewId);
+        $user = $this->getUser();
         $likeFind = $this->em->getRepository(Like::class)->findOneBy([
             'user' => $this->getUser(),
             'review' => $review
@@ -81,7 +119,7 @@ class ReviewController extends AbstractController
         }
         else
         {
-            $like = new Like($this->getUser(), $review);
+            $like = new Like($user, $review);
             $this->em->persist($like);
             $review->addLike($like);
         }
@@ -89,12 +127,13 @@ class ReviewController extends AbstractController
         return $this->redirectToRoute('review', ['reviewId' => $reviewId]);
     }
 
-    public function createFormReview(Review $review) : FormInterface
+    public function createFormReview(Review $review, $isNew = false) : FormInterface
     {
         return $this->createFormBuilder($review)
             ->add('title', TextType::class, [
                 'required' => true,
                 'label' => 'fields.title',
+                'data' => $isNew ? null : $review->getTitle(true)
             ])
             ->add('text', TextareaType::class, [
                 'required' => true,
@@ -129,14 +168,41 @@ class ReviewController extends AbstractController
             ->add('save', SubmitType::class, ['label' => 'form.buttons.send'])
             ->getForm();
     }
-    #[Route('{_locale}/review/create', name: 'create_review')]
+
+    #[Route('{_locale<%app.locales%>}/review/create/admin/{id}', name: 'create_review_by_admin')]
+    public function createReviewByAdmin($id, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $user = $this->em->getRepository(User::class)->find($id);
+        if($user == null)
+        {
+            return $this->redirectToRoute('home_page');
+        }
+        $review = new Review();
+        $form = $this->createFormReview($review, true);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $review = $form->getData();
+            $review->setAuthor($user);
+            $this->em->persist($review);
+            $this->em->flush();
+            $this->addFlash('success', 'Обзор добавлен');
+            return $this->redirectToRoute('home_page');
+        }
+        return $this->renderForm('review/createReview.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('{_locale<%app.locales%>}/review/create', name: 'create_review')]
     public function createReview(Request $request): Response
     {
-        var_dump($this->generateUrl('connect_facebook_check', [], UrlGenerator::ABSOLUTE_URL));
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $review = new Review();
-        $form = $this->createFormReview($review);
+        $form = $this->createFormReview($review, true);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
@@ -153,7 +219,7 @@ class ReviewController extends AbstractController
         ]);
     }
 
-    #[Route('{_locale}/review/id{reviewId}/edit', name: 'edit_review')]
+    #[Route('{_locale<%app.locales%>}/review/id{reviewId}/edit', name: 'edit_review')]
     public function editReview($reviewId, Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -162,7 +228,7 @@ class ReviewController extends AbstractController
          * @var User $author
          */
         $author = $review->getAuthor();
-        if($author->getId() != $this->getUser()->getId())
+        if($author->getId() != $this->getUser()->getId() && !$this->isGranted('ROLE_ADMIN'))
         {
             return $this->redirectToRoute('home_page');
         }
@@ -189,7 +255,7 @@ class ReviewController extends AbstractController
             ]);
         }
     }
-    #[Route('{_locale}/review/id{reviewId}/delete', name: 'delete_review')]
+    #[Route('{_locale<%app.locales%>}/review/id{reviewId}/delete', name: 'delete_review')]
     public function deleteReview($reviewId, Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -198,7 +264,7 @@ class ReviewController extends AbstractController
          * @var User $author
          */
         $author = $review->getAuthor();
-        if($author->getId() != $this->getUser()->getId())
+        if($author->getId() != $this->getUser()->getId() && !$this->isGranted('ROLE_ADMIN'))
         {
             return $this->redirectToRoute('home_page');
         }

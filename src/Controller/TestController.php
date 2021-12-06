@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Review;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,26 +19,15 @@ class TestController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/test', name: 'test')]
+    #[Route('{_locale<%app.locales%>}/test', name: 'test')]
     public function index(): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        /** @var \App\Entity\User $user */
+        /** @var User $user */
         $user = $this->getUser();
 
-        $category1 = new Category();
-        $category1->setName('Films');
-
-        $category2 = new Category();
-        $category2->setName('Games');
-
-        $category3 = new Category();
-        $category3->setName('Books');
-
-        $this->em->persist($category1);
-        $this->em->persist($category2);
-        $this->em->persist($category3);
+        $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
 
         $this->em->flush();
         return $this->render('test/index.html.twig', [

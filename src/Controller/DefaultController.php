@@ -28,13 +28,14 @@ class DefaultController extends AbstractController
         return $this->redirectToRoute('home_page');
     }
 
-    #[Route('{_locale}/', name: 'home_page')]
+    #[Route('{_locale<%app.locales%>}/', name: 'home_page')]
     public function index(): Response
     {
-        $reviews = $this->em->getRepository(Review::class)->findAll();
-        //TODO Поменять запрос findall на выборку по времени
+        $reviewsByLast = $this->em->getRepository(Review::class)->findByLastUpdate();
+        $reviewsByRating = $this->em->getRepository(Review::class)->findByMostRating();
         return $this->renderForm('default/index.html.twig', [
-            'reviews' => $reviews,
+            'reviewsLast' => $reviewsByLast,
+            'reviewsRating' => $reviewsByRating
         ]);
     }
 
@@ -58,7 +59,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('{_locale}/search', name: 'handleSearch')]
+    #[Route('{_locale<%app.locales%>}/search', name: 'handleSearch')]
     public function handleSearch(Request $request): Response
     {
         $data = $request->request->get('form')['search'];

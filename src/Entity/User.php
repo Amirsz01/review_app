@@ -161,7 +161,7 @@ class User implements UserInterface
 
     public function getFullName(): string
     {
-        return count($this->likes). ' | '.$this->surname . ' ' . $this->name;
+        return '<span class="badge bg-success text-light">'.count($this->likes).'</span> '.$this->surname . ' ' . $this->name;
     }
 
     public function eraseCredentials()

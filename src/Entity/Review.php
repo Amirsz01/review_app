@@ -83,6 +83,11 @@ class Review
      */
     private int $score;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Rating::class, mappedBy="review", orphanRemoval=true)
+     */
+    private Collection $ratings;
+
     public function __construct()
     {
         $this->setDateCreate(new \DateTime());
@@ -91,6 +96,7 @@ class Review
         $this->tags = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->ratings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,9 +104,9 @@ class Review
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle(bool $raw = false): string
     {
-        return $this->title;
+        return $raw ? $this->title : $this->getTitleWithRating();
     }
 
     public function setTitle(string $title): self
@@ -108,6 +114,20 @@ class Review
         $this->title = $title;
 
         return $this;
+    }
+
+    public function getTitleWithRating(): string
+    {
+        $avg = $this->getAvgRating();
+        return '<span class="badge bg-warning">'.$avg.'</span> '.$this->title;
+    }
+
+    public function getAvgRating(): float
+    {
+        $sum = array_reduce($this->ratings->toArray(), function ($sum, $value ){
+            return $sum += $value->getValue();
+        });
+        return $sum ? (float)($sum / $this->ratings->count())  : 0;
     }
 
     public function getText(): string
@@ -268,6 +288,36 @@ class Review
     public function setScore(int $score): self
     {
         $this->score = $score;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rating[]
+     */
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
+    }
+
+    public function addRating(Rating $rating): self
+    {
+        if (!$this->ratings->contains($rating)) {
+            $this->ratings[] = $rating;
+            $rating->setReview($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRating(Rating $rating): self
+    {
+        if ($this->ratings->removeElement($rating)) {
+            // set the owning side to null (unless already changed)
+            if ($rating->getReview() === $this) {
+                $rating->setReview(null);
+            }
+        }
 
         return $this;
     }

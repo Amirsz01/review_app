@@ -1,7 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Личная страница{% endblock %}
+{% block title %}{{'main.profile_page'|trans}}{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.jqueryui.min.css"/>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.jqueryui.min.js"></script>
+{% endblock %}
 {% block body %}
     <style>
         .example-wrapper { margin: 1em auto; max-width: 1200px; width: 95%; font: 18px/1.5 sans-serif; }
@@ -10,19 +18,13 @@
 
     <div class="example-wrapper">
         {% if user %}
-            <h1>Привет, {{ user.getFullName() }}!</h1>
+            <h1>{{ 'word.hello'|trans }}, {{ user.getFullName()|raw }}!</h1>
+            <a href="{{ path('create_review_by_admin', {'id':user.id}) }}" class="btn btn-outline-warning">{{ 'user_page.buttons.create_review'|trans }}</a><br>
+            {{'user_page.your_reviews'|trans}}:
+            <div id="table-reviews">{{'search.loading'|trans}}</div>
         {% else %}
-            <h1>Данный пользователь не найден</h1>
+            <h1>{{ 'user_page.user_not_fount'|trans }}</h1>
         {% endif %}
-        Ваши обзоры:
-        <div id="presidents">Loading...</div>
-{#        {% if reviews|length %}#}
-{#            {% for review in reviews %}#}
-{#                <a href="{{ path('review', {'reviewId': review.id}) }}">{{ review.getTitle() }}</a>#}
-{#            {% endfor %}#}
-{#        {% else %}#}
-{#            <p>У вас пока нет обзоров</p>#}
-{#        {% endif %}#}
     </div>
 {% endblock %}
 
@@ -30,7 +32,9 @@
     <script src="{{ asset('bundles/datatables/js/datatables.js') }}"></script>
     <script>
       $(function() {
-        $('#presidents').initDataTables({{ datatable_settings(datatable) }});
+        $('#table-reviews').initDataTables({{ datatable_settings(datatable) }}, {
+          searching: true,
+        })
       });
     </script>
 {% endblock %}

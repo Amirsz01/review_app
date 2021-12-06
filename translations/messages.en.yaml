@@ -1,16 +1,21 @@
 main:
   main_page: 'Main page'
   last_reviews: 'Last reviews'
+  most_rating: 'Most rating reviews'
+  profile_page: 'Profile'
+  admin_page: 'Admin page'
   buttons:
     create_review: 'Create review'
     logout: 'Logout'
     profile: 'Profile'
+    admin: 'AdmPan'
     main: 'Main'
 
 search:
   search_placeholder: 'Search...'
   found_reviews: 'Found reviews'
   reviews_not_found: 'No reviews were found for this request.'
+  loading: 'Loading...'
 
 fields:
   title: 'Title'
@@ -33,7 +38,16 @@ form:
 word:
   in: 'in'
   like: 'Like'
+  hello: 'Hello'
 
 review:
   comments:
     not_available: 'Comments are not available to you. Log in!'
+
+admin_panel:
+  user_list: 'Users list'
+user_page:
+  user_not_fount: 'This user was not found'
+  your_reviews: 'Your reviews'
+  buttons:
+    create_review: 'Create review'
