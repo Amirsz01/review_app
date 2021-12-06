@@ -9,22 +9,36 @@
 </style>
 
 <div class="example-wrapper">
-    <h2>{{'fields.title'|trans}}: {{review.title|raw}}!</h2>
-    <h5>{{'fields.author'|trans}}: <strong>{{ review.author.getFullName()|raw }}</strong></h5>
+    <h1>{{review.title|raw}}!</h1>
+    <p class="lead">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+        </svg>
+        <span class="h6"><a href="{{ path('user_page', {'id': review.author.id}) }}">{{ review.author.getFullName()|raw }}</a></span>
+    </p>
     <h5>{{'fields.category'|trans}}: <strong>{{ review.category.name }}</strong></h5>
     <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+            <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
+            <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
+        </svg>
         {{'fields.tags'|trans}}:
         {% for tag in review.tags %}
-            {{ tag.name }}
+            <span class="badge badge-info">{{ tag.name }}</span>
         {% endfor %}
     </p>
-    <header style="background-color: #ddd">
+    <div class="rounded p-2" style="background-color: #ddd; min-height: 300px;">
         {{review.text|markdown}}
-    </header>
+    </div>
     {% for image in review.images %}
         <img alt src="{{ image.sharedUri }}" style="height: 100px;">
     {% endfor %}
-    <h5>{{ 'fields.rating'|trans }}: {{ review.score }}</h5>
+    <p class="h5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-half" viewBox="0 0 16 16">
+            <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z"/>
+        </svg>
+        {{ 'fields.score'|trans }}: {{ review.score }}
+    </p>
     <h5>{{ 'fields.likes'|trans }}: {{ review.likes|length }}</h5>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <a class="btn btn-outline-primary" href="{{ path('review_like', {'reviewId': review.id}) }}">{{'word.like'|trans }}</a>

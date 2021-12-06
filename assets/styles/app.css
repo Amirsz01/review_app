@@ -82,3 +82,17 @@ body {
 .dataTables_length {
     color: #FFFFFF;
 }
+
+a .nav-link {
+    text-decoration: none;
+    color: #fff !important;
+}
+
+.list-group-item a , td a {
+    text-decoration: none;
+    color: #333 !important;
+}
+
+table {
+    border-radius: .25rem!important;
+}

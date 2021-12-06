@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="d-flex w-100">
-        <div class="w-100 border border-primary rounded m-1 p-2">
+        <div class="w-100 border border-success rounded m-1 p-2">
             <p class="h4">{{ 'main.last_reviews'|trans }}</p>
             <ul class="list-group list-group-flush">
                 {% for review in reviewsLast %}
@@ -12,11 +12,11 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="w-100 border border-primary rounded m-1 p-2">
+        <div class="w-100 border border-success rounded m-1 p-2">
             <p class="h4">{{ 'main.most_rating'|trans }}</p>
             <ul class="list-group list-group-flush">
                 {% for review in reviewsRating %}
-                    <li class="list-group-item"><a href="{{path('review', {'reviewId': review[0].id})}}"><span class="badge bg-warning">{{ review["avg"] ? review["avg"]|round(2) : 0 }}</span> {{ review[0].getTitle(true) }}</a></li>
+                    <li class="list-group-item"><a href="{{path('review', {'reviewId': review[0].id})}}"><span class="badge bg-warning align-middle">{{ review["avg"] ? review["avg"]|round(2) : 0 }}</span> {{ review[0].getTitle(true) }}</a></li>
                 {% endfor %}
             </ul>
         </div>

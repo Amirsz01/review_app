@@ -119,7 +119,7 @@ class Review
     public function getTitleWithRating(): string
     {
         $avg = $this->getAvgRating();
-        return '<span class="badge bg-warning">'.$avg.'</span> '.$this->title;
+        return '<span class="badge bg-warning align-middle">'.$avg.'</span> '.$this->title;
     }
 
     public function getAvgRating(): float

@@ -75,7 +75,7 @@ class ReviewController extends AbstractController
                         'min' => 1,
                         'max' => 5
                     ],
-                    'label' => 'fields.score',
+                    'label' => 'fields.rating',
                     'data' => $rating->getValue()
                 ])
                 ->add('save', SubmitType::class, ['label' => 'form.buttons.send'])
