@@ -32,7 +32,7 @@ security:
             guard:
                 authenticators:
                     - App\Security\GoogleAuthenticator
-                    - App\Security\DropboxAuthenticator
+                    - App\Security\GithubAuthenticator
             logout:
                 path: logout
                 target: home_page

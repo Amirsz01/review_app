@@ -3,42 +3,41 @@
 namespace App\Controller;
 
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use KnpU\OAuth2ClientBundle\Client\Provider\DropboxClient;
-use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
+use KnpU\OAuth2ClientBundle\Client\Provider\GithubClient;
+
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use League\OAuth2\Client\Provider\FacebookUser;
-use Stevenmaguire\OAuth2\Client\Provider\Dropbox;
+use League\OAuth2\Client\Provider\GithubResourceOwner;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
-class DropboxController extends AbstractController
+class GithubController extends AbstractController
 {
     /**
      * Link to this controller to start the "connect" process
      *
-     * @Route("/connect/dropbox", name="connect_dropbox_start")
+     * @Route("/connect/github", name="connect_github_start")
      */
     public function connectAction(ClientRegistry $clientRegistry)
     {
         return $clientRegistry
-            ->getClient('dropbox')
+            ->getClient('github')
             ->redirect([
 
-            ], ['redirect_uri' => $this->generateUrl('connect_dropbox_check', [], UrlGenerator::ABSOLUTE_URL)]);
+            ], ['redirect_uri' => $this->generateUrl('connect_github_check', [], UrlGenerator::ABSOLUTE_URL)]);
     }
 
     /**
-     * @Route("/connect/dropbox/check", name="connect_dropbox_check")
+     * @Route("/connect/github/check", name="connect_github_check")
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
     {
-        /** @var DropboxClient $client */
-        $client = $clientRegistry->getClient('dropbox');
+        /** @var GithubClient $client */
+        $client = $clientRegistry->getClient('github');
 
         try {
-            /** @var Dropbox $user */
+            /** @var GithubResourceOwner $user */
             $user = $client->fetchUser();
 
             var_dump($user); die;

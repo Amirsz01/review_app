@@ -6,6 +6,7 @@ namespace App\Security;
 use App\Entity\User; // your user entity
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
+use KnpU\OAuth2ClientBundle\Client\Provider\GithubClient;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -19,7 +20,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class DropboxAuthenticator extends SocialAuthenticator
+class GithubAuthenticator extends SocialAuthenticator
 {
     private ClientRegistry $clientRegistry;
     private EntityManagerInterface $em;
@@ -34,28 +35,28 @@ class DropboxAuthenticator extends SocialAuthenticator
 
     public function supports(Request $request)
     {
-        return $request->attributes->get('_route') === 'connect_dropbox_check';
+        return $request->attributes->get('_route') === 'connect_github_check';
     }
 
     public function getCredentials(Request $request)
     {
-        return $this->fetchAccessToken($this->getDropboxClient());
+        return $this->fetchAccessToken($this->getGithubClient());
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        /** @var Dropbox $dropboxUser */
-        $dropboxUser = $this->getDropboxClient()
+        /** @var GithubClient $dropboxUser */
+        $githubUser = $this->getGithubClient()
             ->fetchUserFromToken($credentials);
 
         $existingUser = $this->em->getRepository(User::class)
-            ->findOneBy(['uuid' => $dropboxUser->getId()]);
+            ->findOneBy(['uuid' => $githubUser->getId()]);
         if ($existingUser) {
             return $existingUser;
         }
 
         $user = new User();
-        $user->setDataFromDropbox($dropboxUser);
+        $user->setDataFromGithub($githubUser);
         $this->em->persist($user);
         $this->em->flush();
 
@@ -65,9 +66,9 @@ class DropboxAuthenticator extends SocialAuthenticator
     /**
      * @return OAuth2ClientInterface
      */
-    private function getDropboxClient()
+    private function getGithubClient()
     {
-        return $this->clientRegistry->getClient('dropbox');
+        return $this->clientRegistry->getClient('github');
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
@@ -87,7 +88,7 @@ class DropboxAuthenticator extends SocialAuthenticator
     public function start(Request $request, AuthenticationException $authException = null)
     {
         return new RedirectResponse(
-            '/connect/dropbox',
+            '/connect/github',
             Response::HTTP_TEMPORARY_REDIRECT
         );
     }

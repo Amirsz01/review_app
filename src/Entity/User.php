@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use League\OAuth2\Client\Provider\GithubResourceOwner;
 use League\OAuth2\Client\Provider\GoogleUser;
 use Stevenmaguire\OAuth2\Client\Provider\Dropbox;
 use Stevenmaguire\OAuth2\Client\Provider\DropboxResourceOwner;
@@ -212,12 +213,11 @@ class User implements UserInterface
         $this->setUuid($googleUser->getId());
     }
 
-    public function setDataFromDropbox(DropboxResourceOwner $dropboxUser)
+    public function setDataFromGithub(GithubResourceOwner $githubUser)
     {
-        $data = explode(' ', $dropboxUser->getName());
-        $this->setName($data[0]);
-        $this->setSurname($data[1]);
-        $this->setUuid($dropboxUser->getId());
+        $this->setName($githubUser->getNickname());
+        $this->setSurname('');
+        $this->setUuid($githubUser->getId());
     }
 
     /**
